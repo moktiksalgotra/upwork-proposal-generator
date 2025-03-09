@@ -1,6 +1,5 @@
 streamlit
 requests
-spacy==3.5.3
-thinc==8.1.10
+spacy==3.4.4
+thinc==8.1.9
 python-dotenv
-
