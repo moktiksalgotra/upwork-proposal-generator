@@ -8,13 +8,18 @@ from dotenv import load_dotenv
 # Load environment variables from .env file
 load_dotenv()
 
-# Ensure Spacy model is installed
-try:
-    nlp = spacy.load("en_core_web_sm")
-except OSError:
-    st.warning("SpaCy model not found. Downloading en_core_web_sm...")
-    subprocess.run(["python", "-m", "spacy", "download", "en_core_web_sm"])
-    nlp = spacy.load("en_core_web_sm")
+# Function to ensure SpaCy model is installed
+def load_spacy_model():
+    model_name = "en_core_web_sm"
+    try:
+        return spacy.load(model_name)
+    except OSError:
+        st.warning(f"{model_name} not found. Downloading now...")
+        subprocess.run(["python", "-m", "spacy", "download", model_name], check=True)
+        return spacy.load(model_name)
+
+# Load SpaCy model
+nlp = load_spacy_model()
 
 # API URLs
 UPWORK_API_URL = "https://upwork-jobs-api2.p.rapidapi.com/active-freelance-7d"
