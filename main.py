@@ -2,21 +2,19 @@ import os
 import streamlit as st
 import requests
 import spacy
-import subprocess
 from dotenv import load_dotenv
 
 # Load environment variables from .env file
 load_dotenv()
 
-# Function to ensure SpaCy model is installed
+# Function to load SpaCy model safely
 def load_spacy_model():
     model_name = "en_core_web_sm"
     try:
         return spacy.load(model_name)
     except OSError:
-        st.warning(f"{model_name} not found. Downloading now...")
-        subprocess.run(["python", "-m", "spacy", "download", model_name], check=True)
-        return spacy.load(model_name)
+        st.error(f"SpaCy model '{model_name}' is missing. Ensure it's installed via `requirements.txt`.")
+        st.stop()
 
 # Load SpaCy model
 nlp = load_spacy_model()
